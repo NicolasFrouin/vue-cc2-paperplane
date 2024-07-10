@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import HelloWorld from './components/HelloWorld.vue';
+import fetchUsers from './api/users';
+
+const { data, cancel, error, loading, canceled } = fetchUsers();
+
+console.log({ data: data.value, error: error.value, loading: loading.value, canceled: canceled.value });
+
+cancel();
+
+setTimeout(() => {
+  console.log({ data: data.value, error: error.value, loading: loading.value, canceled: canceled.value });
+}, 2000);
 </script>
 
 <template>
