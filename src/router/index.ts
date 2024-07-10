@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import UsersView from '../views/UsersView.vue';
 
 const routes = {
   home: {
     path: '/',
     name: 'home',
     component: HomeView,
+  },
+  users: {
+    path: '/users',
+    name: 'users',
+    component: UsersView,
   },
 } as const satisfies Record<string, RouteRecordRaw>;
 
