@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import useCommonStore, { RouteType } from './common';
+import useCommonStore from './common';
 
 const PhotoSchema = z.object({
   albumId: z.number(),
@@ -9,8 +9,8 @@ const PhotoSchema = z.object({
   thumbnailUrl: z.string().url(),
 });
 
-function usePhotosStore() {
-  return useCommonStore(RouteType.PHOTOS, PhotoSchema);
+function usePhotosStore(id: number | undefined = undefined) {
+  return useCommonStore('photos', PhotoSchema, id);
 }
 
 export default usePhotosStore;

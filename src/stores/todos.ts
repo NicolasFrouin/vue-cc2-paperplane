@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import useCommonStore, { RouteType } from './common';
+import useCommonStore from './common';
 
 const TodoSchema = z.object({
   userId: z.number(),
@@ -8,8 +8,8 @@ const TodoSchema = z.object({
   completed: z.boolean(),
 });
 
-function useTodosStore() {
-  return useCommonStore(RouteType.TODOS, TodoSchema);
+function useTodosStore(id: number | undefined = undefined) {
+  return useCommonStore('todos', TodoSchema, id);
 }
 
 export default useTodosStore;

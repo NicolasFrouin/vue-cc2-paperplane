@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import useCommonStore, { RouteType } from './common';
+import useCommonStore from './common';
 
 const CommentSchema = z.object({
   postId: z.number(),
@@ -9,8 +9,8 @@ const CommentSchema = z.object({
   body: z.string(),
 });
 
-function useCommentsStore() {
-  return useCommonStore(RouteType.COMMENTS, CommentSchema);
+function useCommentsStore(id: number | undefined = undefined) {
+  return useCommonStore('comments', CommentSchema, id);
 }
 
 export default useCommentsStore;

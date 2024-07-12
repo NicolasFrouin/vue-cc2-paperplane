@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import useCommonStore, { RouteType } from './common';
+import useCommonStore from './common';
 
 const AlbumSchema = z.object({
   userId: z.number(),
@@ -7,8 +7,8 @@ const AlbumSchema = z.object({
   title: z.string(),
 });
 
-function useAlbumsStore() {
-  return useCommonStore(RouteType.ALBUMS, AlbumSchema);
+function useAlbumsStore(id: number | undefined = undefined) {
+  return useCommonStore('albums', AlbumSchema, id);
 }
 
 export default useAlbumsStore;

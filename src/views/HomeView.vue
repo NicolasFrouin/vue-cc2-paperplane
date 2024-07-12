@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import UsersView from './UsersView.vue';
+import UsersView from './users/UsersView.vue';
 </script>
 
 <template>

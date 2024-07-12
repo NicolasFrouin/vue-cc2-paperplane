@@ -1,17 +1,9 @@
+import type { RoutesType } from '@/router';
 import { ref } from 'vue';
 import { z } from 'zod';
 
-export enum RouteType {
-  USERS = 'users',
-  POSTS = 'posts',
-  ALBUMS = 'albums',
-  TODOS = 'todos',
-  COMMENTS = 'comments',
-  PHOTOS = 'photos',
-}
-
-function useCommonStore(route: RouteType, objectSchema: z.ZodObject<any>) {
-  type ResObject = z.infer<typeof objectSchema>;
+function useCommonStore(route: RoutesType, objectSchema: z.ZodObject<any>, id: number | undefined = undefined) {
+  type ResObject = z.infer<typeof objectSchema> extends object ? { id: number; [key: string]: any } : never;
 
   const loading = ref(true);
   const error = ref<Error | null>(null);
@@ -19,7 +11,7 @@ function useCommonStore(route: RouteType, objectSchema: z.ZodObject<any>) {
   const abortController = new AbortController();
   const canceled = ref(false);
 
-  fetch(`https://jsonplaceholder.typicode.com/${route}`, { signal: abortController.signal })
+  fetch(`https://jsonplaceholder.typicode.com/${route}/${id ?? ''}`, { signal: abortController.signal })
     .then(
       (res) => {
         if (!res.ok) throw new Error('Network response was not ok');
@@ -30,10 +22,12 @@ function useCommonStore(route: RouteType, objectSchema: z.ZodObject<any>) {
       },
     )
     .then((res) => {
-      if (!Array.isArray(res)) {
-        throw new Error('Invalid data');
+      let valid = false;
+      if (Array.isArray(res)) {
+        valid = res.every((item) => objectSchema.safeParse(item).success);
+      } else {
+        valid = objectSchema.safeParse(res).success;
       }
-      const valid = res.every((item) => objectSchema.safeParse(item).success);
       if (!valid) {
         throw new Error('Invalid data');
       }

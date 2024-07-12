@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import useCommonStore, { RouteType } from './common';
+import useCommonStore from './common';
 
 const PostSchema = z.object({
   userId: z.number(),
@@ -8,8 +8,8 @@ const PostSchema = z.object({
   body: z.string(),
 });
 
-function usePostsStore() {
-  return useCommonStore(RouteType.POSTS, PostSchema);
+function usePostsStore(id: number | undefined = undefined) {
+  return useCommonStore('posts', PostSchema, id);
 }
 
 export default usePostsStore;

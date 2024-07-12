@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import useCommonStore, { RouteType } from './common';
+import useCommonStore from './common';
 
 const UserSchema = z.object({
   id: z.number(),
@@ -25,8 +25,8 @@ const UserSchema = z.object({
   }),
 });
 
-function useUsersStore() {
-  return useCommonStore(RouteType.USERS, UserSchema);
+function useUsersStore(id: number | undefined = undefined) {
+  return useCommonStore('users', UserSchema, id);
 }
 
 export default useUsersStore;
